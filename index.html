@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A simple PWA that reminds you to drink water and track daily intake.">
+  <meta name="theme-color" content="#00aaff">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Water Reminder">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+  <title>Water Reminder</title>
+</head>
+
+<body>
+
+<header class="app-header">
+  <div class="title">
+    <img src="icon-192.png" alt="App icon" class="app-icon" />
+    <h1>Water Reminder</h1>
+  </div>
+  <div class="header-actions">
+    <button id="helpBtn" aria-label="Help" title="Help">❔</button>
+    <button id="settingsBtn" aria-label="Settings" title="Settings">⚙️</button>
+    <button id="themeToggle" aria-label="Toggle theme" title="Toggle light/dark">🌙</button>
+    <button id="installBtn" style="display:none" aria-hidden="true">Install</button>
+  </div>
+</header>
+
+<main class="card container" role="main">
+  <label for="interval">Reminder Interval (minutes)</label>
+  <input id="interval" type="number" placeholder="60" aria-label="Reminder interval in minutes">
+
+  <div class="controls">
+    <button id="startBtn" class="primary" onclick="startReminder()" aria-label="Start reminders">Start</button>
+    <button id="testNotifBtn" class="secondary" onclick="notifyUser('Test reminder: this is a test')">Test notification</button>
+    <button class="secondary reset-btn" id="resetBtn" title="Reset reminders" aria-label="Reset reminders">Reset</button>
+    <button class="secondary" id="stopBtn" onclick="stopReminder()" style="display:none">Stop</button>
+    <button class="secondary" id="resumeBtn" onclick="resumeReminder()" style="display:none">Resume</button>
+  </div>
+
+  <div id="timer" class="timer" aria-live="polite">Not running</div>
+
+  <div id="countdown" class="countdown" aria-live="polite">--:--</div>
+  <div class="countdown-container" aria-hidden="false" style="margin-top:8px;">
+    <div id="countdownProgress" class="countdown-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Time until next reminder"></div>
+  </div>
+
+
+</main> 
+
+<!-- Settings modal -->
+<div id="settingsModal" class="modal" aria-hidden="true">
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <h3 id="settingsTitle">Settings</h3>
+    <label>Reminder Options</label>
+    <label class="nowrap"><input type="checkbox" id="reminderSound"> Sound & vibration for reminders</label>
+
+    <label for="intervalSetting">Reminder interval (minutes)</label>
+    <input id="intervalSetting" type="number" min="5" step="5" placeholder="e.g. 60">
+
+    <div class="modal-actions">
+      <button id="saveSettings" class="primary">Save</button>
+      <button id="closeSettings" class="secondary">Close</button>
+      <button id="resetProgress" class="reset">Reset reminders</button>
+    </div>
+  </div>
+</div>
+
+<!-- Onboarding modal -->
+<div id="onboardingModal" class="modal" aria-hidden="true">
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="onboardTitle">
+    <h3 id="onboardTitle">Welcome to Water Reminder</h3>
+    <p>Pick an interval and we'll remind you regularly to drink water. Use the Start/Stop controls to manage reminders.</p>
+    <label class="nowrap"><input type="checkbox" id="dontShowOnboard"> Don't show this again</label>
+    <div class="modal-actions">
+      <button id="closeOnboard" class="primary">Got it</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js').then(reg => {
+      console.log('Service Worker registered', reg);
+    }).catch(err => {
+      console.error('Service Worker registration failed:', err);
+    });
+
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      console.log('Service worker controller changed');
+    });
+  }
+</script>
+</body>
+</html>
