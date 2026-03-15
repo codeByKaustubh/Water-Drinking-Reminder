@@ -1,5 +1,3 @@
-A small progressive web app (PWA) that reminds you to drink water at regular intervals.
-
 ## Features
 
 - Set a reminder interval (minutes) to receive regular reminders to drink water
