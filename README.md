@@ -1,6 +1,3 @@
-# Water Drinking Reminder <br>
-https://sipsentry.netlify.app/
-
 A small progressive web app (PWA) that reminds you to drink water at regular intervals.
 
 ## Features
